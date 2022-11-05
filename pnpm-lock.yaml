@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@fingerprintjs/fingerprintjs': ^3.3.6
   '@types/react': ^18.0.22
   '@types/react-dom': ^18.0.7
   '@vitejs/plugin-react': ^2.2.0
@@ -14,6 +15,7 @@ specifiers:
   vite: ^3.2.0
 
 dependencies:
+  '@fingerprintjs/fingerprintjs': 3.3.6
   autoprefixer: 10.4.13_postcss@8.4.18
   jotai: 1.9.1_react@18.2.0
   postcss: 8.4.18
@@ -314,6 +316,12 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /@fingerprintjs/fingerprintjs/3.3.6:
+    resolution: {integrity: sha512-Inh0OoFVzO2PLvrUF8RZhY9NVDdg9DJHQ5YlvXhrGtQxSPzy2smS3TWzLAi+zlHSJNHSvi+1zYayLen2lGxjdA==}
+    dependencies:
+      tslib: 2.4.1
+    dev: false
 
   /@jridgewell/gen-mapping/0.1.1:
     resolution: {integrity: sha512-sQXCasFk+U8lWYEe66WxRDOE9PjVz4vSM51fTu3Hw+ClTpUSQb718772vH3pyS5pShp6lvQM7SxgIDXXXmOX7w==}
@@ -1278,6 +1286,10 @@ packages:
     engines: {node: '>=8.0'}
     dependencies:
       is-number: 7.0.0
+    dev: false
+
+  /tslib/2.4.1:
+    resolution: {integrity: sha512-tGyy4dAjRIEwI7BzsB0lynWgOpfqjUdq91XXAlIWD2OwKBH7oCl/GZG/HT4BOHrTlPMOASlMQ7veyTqpmRcrNA==}
     dev: false
 
   /update-browserslist-db/1.0.10_browserslist@4.21.4:

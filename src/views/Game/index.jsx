@@ -1,8 +1,12 @@
+
+import { useParams } from "react-router-dom";
 import { Buttom } from "./../../components/buttom/Buttom";
 import { Card } from "./../../components/card/Card";
 import { Display } from "./../../components/display/Display";
 
 export const Game = () => {
+  const params = useParams();
+  console.log(params)
   return (
     <main className="w-screen h-screen flex flex-col items-center justify-center gap-10">
       <Display turn={1} />
