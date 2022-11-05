@@ -1,4 +1,3 @@
-import { io } from "socket.io-client";
-import { API_HOST } from ".";
+import io from "socket.io-client";
 
-export const socket = io(API_HOST);
+export const socket = io(import.meta.env.VITE_API_HOST.split("://")[1]);
