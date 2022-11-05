@@ -1,18 +1,94 @@
-import { Cuadro } from "./Cuadro";
-import "./Card.css";
+import { Cuadro } from './Cuadro';
+import './Card.css';
+import { useState } from 'react';
+import { useEffect } from 'react';
+
 export const Card = () => {
+  // turno = true => J1 => X
+  // turno = false => J2 => O
+  const [turno, setTurno] = useState(true);
+  const [tableDisabled, setTableDisabled] = useState(false);
+
+  const [game, setGame] = useState([
+    { id: 1, skin: null, border: 'border-[#FCDA73]', isSelected: false },
+    { id: 2, skin: null, border: 'border-[#FCDA73]', isSelected: false },
+    { id: 3, skin: null, border: 'border-[#FCDA73]', isSelected: false },
+    { id: 4, skin: null, border: 'border-[#FCDA73]', isSelected: false },
+    { id: 5, skin: null, border: 'border-[#FCDA73]', isSelected: false },
+    { id: 6, skin: null, border: 'border-[#FCDA73]', isSelected: false },
+    { id: 7, skin: null, border: 'border-[#FCDA73]', isSelected: false },
+    { id: 8, skin: null, border: 'border-[#FCDA73]', isSelected: false },
+    { id: 9, skin: null, border: 'border-[#FCDA73]', isSelected: false },
+  ]);
+
+  const handleClick = (id) => {
+    if (game[id - 1].isSelected) return;
+
+    const newGame = game.map((item) => {
+      if (item.id === id) {
+        if (turno) {
+          item.skin = 'xmark';
+        } else {
+          item.skin = 'circle';
+        }
+        item.border = 'border-[#FCDA73]';
+        item.isSelected = true;
+      }
+      return item;
+    });
+    setGame(newGame);
+    setTurno(!turno);
+  };
+
+  const handleWin = () => {
+    const win = [
+      [1, 2, 3],
+      [4, 5, 6],
+      [7, 8, 9],
+      [1, 4, 7],
+      [2, 5, 8],
+      [3, 6, 9],
+      [1, 5, 9],
+      [3, 5, 7],
+    ];
+
+    win.forEach((item) => {
+      const [a, b, c] = item;
+      if (
+        game[a - 1].skin === 'xmark' &&
+        game[b - 1].skin === 'xmark' &&
+        game[c - 1].skin === 'xmark'
+      ) {
+        alert('Gana X');
+        setTableDisabled(true);
+      }
+      if (
+        game[a - 1].skin === 'circle' &&
+        game[b - 1].skin === 'circle' &&
+        game[c - 1].skin === 'circle'
+      ) {
+        alert('Gana O');
+        setTableDisabled(true);
+      }
+    });
+  };
+
+  useEffect(() => {
+    handleWin();
+  }, [game]);
+
   return (
-    <div className="card relative">
+    <div className={`card relative ${tableDisabled ? 'hidden' : 'block'}`}>
       <div className="overflow-hidden rounded-[1rem] w-[22rem] h-[22rem] bg-black grid grid-cols-3 ">
-        <Cuadro border={"border-b-8 border-r-8"} icon="xmark" />
-        <Cuadro border={"border-b-8 border-r-8"} icon="circle" />
-        <Cuadro border={"border-b-8"} icon="circle" />
-        <Cuadro border={"border-b-8 border-r-8"} icon="circle" />
-        <Cuadro border={"border-b-8 border-r-8"} icon="xmark" />
-        <Cuadro border={"border-b-8 "} icon="circle" />
-        <Cuadro border={"border-r-8"} icon="xmark" />
-        <Cuadro border={"border-r-8"} icon="xmark" />
-        <Cuadro icon="xmark" />
+        {game.map((item) => (
+          <Cuadro
+            key={item.id}
+            border={item.border}
+            skin={item.skin}
+            handler={handleClick}
+            id={item.id}
+          />
+        ))}
       </div>
     </div>
   );
