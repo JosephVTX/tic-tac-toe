@@ -1,4 +1,4 @@
-const API_HOST = import.meta.env.VITE_API_HOST + "/api";
+export const API_HOST = import.meta.env.VITE_API_HOST + "/api";
 
 export const getGames = () => {
   return fetch(API_HOST + "/game").then((res) => res.json());

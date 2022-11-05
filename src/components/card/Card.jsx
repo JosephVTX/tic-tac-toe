@@ -1,9 +1,23 @@
 import { Cuadro } from './Cuadro';
 import './Card.css';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useAtom } from 'jotai';
+import { socket } from '../../api/socket';
+import { userAtom } from '../../store';
 
 export const Card = () => {
+
+  const params = useParams();
+  const idGame = params.id;
+  const [user] = useAtom(userAtom);
+
+  useEffect(() => {
+    socket.on("moved", (data) => {
+      console.log(data)
+    })
+  }, [])
+
   // turno = true => J1 => X
   // turno = false => J2 => O
   const [turno, setTurno] = useState(true);
@@ -24,8 +38,10 @@ export const Card = () => {
   const handleClick = (id) => {
     if (game[id - 1].isSelected) return;
 
+    let index;
     const newGame = game.map((item) => {
       if (item.id === id) {
+        index = id - 1;
         if (turno) {
           item.skin = 'xmark';
         } else {
@@ -36,6 +52,9 @@ export const Card = () => {
       }
       return item;
     });
+    const row = Math.floor(index / 3)
+    const cell = index % 3;
+    socket.emit("move", {idGame, user, row, cell})
     setGame(newGame);
     setTurno(!turno);
   };
