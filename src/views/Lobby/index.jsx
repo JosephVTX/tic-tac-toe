@@ -1,7 +1,7 @@
 import { useAtom } from "jotai"
 import { useState } from "react"
 import { useEffect } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 import { createGame, getGames } from "../../api"
 import { gamesAtom, userAtom } from "../../store"
 
@@ -45,7 +45,11 @@ export const Lobby = () => {
       </div>
 
       <ul>
-        {games.map(game => <li key={game.id}>{JSON.stringify(game)}</li>)}
+        {games.map(game => <li key={game.id}>
+          <strong>{game.id}</strong>
+          <span className="mx-4">{game.users[0].nickname}</span>
+          <Link to={"/game/"+game.id} className={`border-yellow-500 border-[2px] px-2`}>Join</Link>
+        </li>)}
       </ul>
     </div>
   )
