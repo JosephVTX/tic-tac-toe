@@ -1,20 +1,19 @@
+import axios from "axios";
+
 export const API_HOST = import.meta.env.VITE_API_HOST + "/api";
 
 export const getGames = () => {
-  return fetch(API_HOST + "/game").then((res) => res.json());
+  return axios.get(API_HOST + "/game");
 };
 
 export const getGameById = (id) => {
-  return fetch(API_HOST + "/game/" + id).then((res) => res.json());
+  return axios.get(API_HOST + "/game/" + id);
 };
 
 export const createGame = (user) => {
-  const headers = new Headers();
-  headers.append("Content-Type", "application/json");
-  return fetch(API_HOST + "/game", {
-    method: "POST",
-    headers,
-    body: JSON.stringify({ user }),
-    mode: "no-cors",
-  }).then((res) => res.json());
+  return axios.post(API_HOST + "/game", { user });
+};
+
+export const joinGame = (user, id) => {
+  return axios.put(API_HOST + "/game/join/" + id, { user });
 };

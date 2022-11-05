@@ -2,21 +2,21 @@ import { useAtom } from "jotai"
 import { useState } from "react"
 import { useEffect } from "react"
 import { useNavigate, Link } from "react-router-dom"
-import { createGame, getGames } from "../../api"
+import { createGame, getGames, joinGame } from "../../api"
 import { gamesAtom, userAtom } from "../../store"
 
 export const Lobby = () => {
   const [games, setGames] = useAtom(gamesAtom)
-  const [user] = useAtom(userAtom)
+  const [user, setUser] = useAtom(userAtom)
   const [creating, setCreating] = useState(false)
   const navigate = useNavigate()
   
   useEffect(() => {
-    getGames().then(({ data, error }) => {
+    getGames().then(({ data: { data }, error }) => {
       if (error) {
         alert(error)
       } else {
-        setGames(data.games);
+        setGames(data.games.filter(game => game.status === "CREATED").filter(game => !game.users[1]));
       }
     })
   }, [])
@@ -25,7 +25,7 @@ export const Lobby = () => {
     setCreating(true)
     if (!creating) {
       console.log(user)
-      const { data, error } = await createGame(user)
+      const { data: { data }, error } = await createGame(user)
       if (error) {
         alert(error)
       } else {
@@ -36,9 +36,15 @@ export const Lobby = () => {
     }
   }
 
+  const join = async (idGame) => {
+    const { data: { data: { game } }, error } = await joinGame(user, idGame)
+    navigate("/game/" + game.id)
+  }
+
   return (
     <div>
-      <h1>Lobby</h1>
+      <h1>Lobby - {user.nickname}</h1>
+      <button onClick={() => setUser(null)}>Cerrar sesión</button>
       <div>
         <input type="text" />
         <button onClick={create}>Create Game</button>
@@ -48,7 +54,7 @@ export const Lobby = () => {
         {games.map(game => <li key={game.id}>
           <strong>{game.id}</strong>
           <span className="mx-4">{game.users[0].nickname}</span>
-          <Link to={"/game/"+game.id} className={`border-yellow-500 border-[2px] px-2`}>Join</Link>
+          <button onClick={() => join(game.id)} className={`border-yellow-500 border-[2px] px-2`}>Join</button>
         </li>)}
       </ul>
     </div>
