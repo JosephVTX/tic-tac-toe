@@ -1,0 +1,38 @@
+@property --rotate {
+    syntax: "<angle>";
+    initial-value: 132deg;
+    inherits: false;
+  }
+
+.card::before {
+    content: "";
+    width: 104%;
+    height: 104%;
+   
+    background-image: linear-gradient(
+      var(--rotate)
+      , #FCDA73, #4FEAFB 43%, #4e00c2);
+      position: absolute;
+      z-index: -1;
+      top: 0;
+      left: 0;
+      transform: translate(-50%, -50%);
+      top: 50%;
+      left: 50%;
+      border-radius: 20px;
+
+      
+
+      animation: spin 5s linear infinite;
+  }
+  
+  
+  
+  @keyframes spin {
+    0% {
+      --rotate: 0deg;
+    }
+    100% {
+      --rotate: 360deg;
+    }
+  }
