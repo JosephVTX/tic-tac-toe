@@ -19,11 +19,20 @@ export const Cuadro = ({ skin = null, row, cell }) => {
       className={`box-content shadow-[0_0_1.625rem_#FCDA73] border-[#FCDA73]  flex items-center justify-center  relative `}
     >
       {skin !== "VOID" && (
-        <img
-          className="absolute transition-all duration-500"
-          src={`../icons/${skin === "FIRST" ? "xmark" : "circle"}.svg`}
+        
+          skin == "FIRST" ? 
+          <img
+          className="absolute transition-all duration-500 h-[75%]"
+          src="../icons/xmark.svg"
           alt="xmark"
-        />
+        />  :
+
+        <img
+        className="absolute transition-all duration-500"
+        src="../icons/circle.png"
+        alt="xmark"
+      />
+        
       )}
     </div>
   );
